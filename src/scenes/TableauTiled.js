@@ -55,12 +55,12 @@ class TableauTiled extends Tableau{
         // 1 La méthode que je préconise (il faut définir une propriété dans tiled pour que ça marche)
         //permet de travailler sur un seul layer dans tiled et des définir les collisions en fonction des graphiques
         //exemple ici https://medium.com/@michaelwesthadley/modular-game-worlds-in-phaser-3-tilemaps-1-958fc7e6bbd6
-        this.solides.setCollisionByProperty({ collides: true });
-        this.lave.setCollisionByProperty({ collides: true });
+        //this.solides.set({ collides: true });
+        //this.lave.setCollisionByProperty({ collides: true });
 
         // 2 manière la plus simple (là où il y a des tiles ça collide et sinon non)
-        //this.solides.setCollisionByExclusion(-1, true);
-        //this.lave.setCollisionByExclusion(-1, true);
+        this.solides.setCollisionByExclusion(-1, true);
+        this.lave.setCollisionByExclusion(-1, true);
 
         // 3 Permet d'utiliser l'éditeur de collision de Tiled...mais ne semble pas marcher pas avec le moteur de physique ARCADE, donc oubliez cette option :(
         //this.map.setCollisionFromCollisionGroup(true,true,this.plateformesSimples);
@@ -73,106 +73,107 @@ class TableauTiled extends Tableau{
             immovable: false,
             bounceY:1
         });
-        this.starsObjects = this.map.getObjectLayer('stars')['objects'];
+        //this.starsObjects = this.map.getObjectLayer('stars')['objects'];
         // On crée des étoiles pour chaque objet rencontré
+        /*
         this.starsObjects.forEach(starObject => {
             // Pour chaque étoile on la positionne pour que ça colle bien car les étoiles ne font pas 64x64
             let star = this.stars.create(starObject.x+32, starObject.y+32 , 'particles','star');
         });
-
+            */
 
         //----------les monstres volants (objets tiled) ---------------------
 
         let monstersContainer=this.add.container();
-        this.flyingMonstersObjects = this.map.getObjectLayer('flyingMonsters')['objects'];
-        // On crée des montres volants pour chaque objet rencontré
-        this.flyingMonstersObjects.forEach(monsterObject => {
-            let monster=new MonsterFly(this,monsterObject.x,monsterObject.y);
-            monstersContainer.add(monster);
-        });
+        // this.flyingMonstersObjects = this.map.getObjectLayer('flyingMonsters')['objects'];
+        // // On crée des montres volants pour chaque objet rencontré
+        // this.flyingMonstersObjects.forEach(monsterObject => {
+        //     let monster=new MonsterFly(this,monsterObject.x,monsterObject.y);
+        //     monstersContainer.add(monster);
+        // });
 
         //--------effet sur la lave------------------------
 
-        this.laveFxContainer=this.add.container();
-        this.lave.forEachTile(function(tile){ //on boucle sur TOUTES les tiles de lave pour générer des particules
-            if(tile.index !== -1){ //uniquement pour les tiles remplies
+        // this.laveFxContainer=this.add.container();
+        // this.lave.forEachTile(function(tile){ //on boucle sur TOUTES les tiles de lave pour générer des particules
+        //     if(tile.index !== -1){ //uniquement pour les tiles remplies
 
-                /*
-                //dé-commenter pour mieux comprendre ce qui se passe
-                console.log("lave tile",tile.index,tile);
-                let g=ici.add.graphics();
-                laveFxContainer.add(g);
-                g.setPosition(tile.pixelX,tile.pixelY)
-                g.lineStyle(1,0xFF0000);
-                g.strokeRect(0, 0, 64, 64);
-                */
+        //         /*
+        //dé-commenter pour mieux comprendre ce qui se passe
+        //         console.log("lave tile",tile.index,tile);
+        //         let g=ici.add.graphics();
+        //         laveFxContainer.add(g);
+        //         g.setPosition(tile.pixelX,tile.pixelY)
+        //         g.lineStyle(1,0xFF0000);
+        //         g.strokeRect(0, 0, 64, 64);
+        //         */
 
-                //on va créer des particules
-                let props={
-                    frame: [
-                        //'star', //pour afficher aussi des étoiles
-                        'death-white'
-                    ],
-                    frequency:200,
-                    lifespan: 2000,
-                    quantity:2,
-                    x:{min:-32,max:32},
-                    y:{min:-12,max:52},
-                    tint:[  0xC11A05,0x883333,0xBB5500,0xFF7F27 ],
-                    rotate: {min:-10,max:10},
-                    speedX: { min: -10, max: 10 },
-                    speedY: { min: -20, max: -30 },
-                    scale: {start: 0, end: 1},
-                    alpha: { start: 1, end: 0 },
-                    blendMode: Phaser.BlendModes.ADD,
-                };
-                let props2={...props}; //copie props sans props 2
-                props2.blendMode=Phaser.BlendModes.MULTIPLY; // un autre blend mode plus sombre
+        //         //on va créer des particules
+        //         let props={
+        //             frame: [
+        //                 //'star', //pour afficher aussi des étoiles
+        //                 'death-white'
+        //             ],
+        //             frequency:200,
+        //             lifespan: 2000,
+        //             quantity:2,
+        //             x:{min:-32,max:32},
+        //             y:{min:-12,max:52},
+        //             tint:[  0xC11A05,0x883333,0xBB5500,0xFF7F27 ],
+        //             rotate: {min:-10,max:10},
+        //             speedX: { min: -10, max: 10 },
+        //             speedY: { min: -20, max: -30 },
+        //             scale: {start: 0, end: 1},
+        //             alpha: { start: 1, end: 0 },
+        //             blendMode: Phaser.BlendModes.ADD,
+        //         };
+        //         let props2={...props}; //copie props sans props 2
+        //         props2.blendMode=Phaser.BlendModes.MULTIPLY; // un autre blend mode plus sombre
 
-                //ok tout est prêt...ajoute notre objet graphique
-                let laveParticles = ici.add.particles('particles');
+        //         //ok tout est prêt...ajoute notre objet graphique
+        //         let laveParticles = ici.add.particles('particles');
 
-                //ajoute le premier émetteur de particules
-                laveParticles.createEmitter(props);
-                //on ne va pas ajouter le second effet émetteur mobile car il consomme trop de ressources
-                if(!ici.isMobile) {
-                    laveParticles.createEmitter(props2); // ajoute le second
-                }
-                // positionne le tout au niveau de la tile
-                laveParticles.x=tile.pixelX+32;
-                laveParticles.y=tile.pixelY+32;
-                ici.laveFxContainer.add(laveParticles);
+        //         //ajoute le premier émetteur de particules
+        //         laveParticles.createEmitter(props);
+        //         //on ne va pas ajouter le second effet émetteur mobile car il consomme trop de ressources
+        //         if(!ici.isMobile) {
+        //             laveParticles.createEmitter(props2); // ajoute le second
+        //         }
+        //         // positionne le tout au niveau de la tile
+        //         laveParticles.x=tile.pixelX+32;
+        //         laveParticles.y=tile.pixelY+32;
+        //         ici.laveFxContainer.add(laveParticles);
 
-                //optimisation (les particules sont invisibles et désactivées par défaut)
-                //elles seront activées via update() et optimizeDisplay()
-                laveParticles.pause();
-                laveParticles.visible=false;
-                //on définit un rectangle pour notre tile de particules qui nous servira plus tard
-                laveParticles.rectangle=new Phaser.Geom.Rectangle(tile.pixelX,tile.pixelY,64,64);
+        //         //optimisation (les particules sont invisibles et désactivées par défaut)
+        //         //elles seront activées via update() et optimizeDisplay()
+        //         laveParticles.pause();
+        //         laveParticles.visible=false;
+        //         //on définit un rectangle pour notre tile de particules qui nous servira plus tard
+        //         laveParticles.rectangle=new Phaser.Geom.Rectangle(tile.pixelX,tile.pixelY,64,64);
 
-            }
+        //     }
 
-        })
+        // })
 
-        //--------allez on se fait un peu la même en plus simple mais avec les étoiles----------
+        // //--------allez on se fait un peu la même en plus simple mais avec les étoiles----------
 
-        let starsFxContainer=ici.add.container();
-        this.stars.children.iterate(function(etoile) {
-            let particles=ici.add.particles("particles","star");
-            let emmiter=particles.createEmitter({
-                tint:[  0xFF8800,0xFFFF00,0x88FF00,0x8800FF ],
-                rotate: {min:0,max:360},
-                scale: {start: 0.8, end: 0.5},
-                alpha: { start: 1, end: 0 },
-                blendMode: Phaser.BlendModes.ADD,
-                speed:40
-            });
-            etoile.on("disabled",function(){
-                emmiter.on=false;
-            })
-            emmiter.startFollow(etoile);
-            starsFxContainer.add(particles);
-        });
+        // let starsFxContainer=ici.add.container();
+        // this.stars.children.iterate(function(etoile) {
+        //     let particles=ici.add.particles("particles","star");
+        //     let emmiter=particles.createEmitter({
+        //         tint:[  0xFF8800,0xFFFF00,0x88FF00,0x8800FF ],
+        //         rotate: {min:0,max:360},
+        //         scale: {start: 0.8, end: 0.5},
+        //         alpha: { start: 1, end: 0 },
+        //         blendMode: Phaser.BlendModes.ADD,
+        //         speed:40
+        //     });
+        //     etoile.on("disabled",function(){
+        //         emmiter.on=false;
+        //     })
+        //     emmiter.startFollow(etoile);
+        //     starsFxContainer.add(particles);
+        // });
 
 
 
@@ -239,13 +240,13 @@ class TableauTiled extends Tableau{
         this.blood.setDepth(z--);
         monstersContainer.setDepth(z--);
         this.stars.setDepth(z--);
-        starsFxContainer.setDepth(z--);
+        //starsFxContainer.setDepth(z--);
         this.devant.setDepth(z--);
         this.solides.setDepth(z--);
-        this.laveFxContainer.setDepth(z--);
+        //this.laveFxContainer.setDepth(z--);
         this.lave.setDepth(z--);
         this.player.setDepth(z--);
-        this.derriere.setDepth(z--);
+       // this.derriere.setDepth(z--);
         this.sky2.setDepth(z--);
         this.sky.setDepth(z--);
 
@@ -259,6 +260,7 @@ class TableauTiled extends Tableau{
         let world=this.cameras.main.worldView; // le rectagle de la caméra, (les coordonnées de la zone visible)
 
         // on va activer / désactiver les particules de lave
+        /*
         for( let particule of this.laveFxContainer.getAll()){ // parcours toutes les particules de lave
             if(Phaser.Geom.Rectangle.Overlaps(world,particule.rectangle)){
                 //si le rectangle de la particule est dans le rectangle de la caméra
@@ -276,6 +278,7 @@ class TableauTiled extends Tableau{
                 }
             }
         }
+        */
 
         // ici vous pouvez appliquer le même principe pour des monstres, des étoiles etc...
     }
