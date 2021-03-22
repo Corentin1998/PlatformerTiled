@@ -55,12 +55,18 @@ class TableauTiled extends Tableau{
         // 1 La méthode que je préconise (il faut définir une propriété dans tiled pour que ça marche)
         //permet de travailler sur un seul layer dans tiled et des définir les collisions en fonction des graphiques
         //exemple ici https://medium.com/@michaelwesthadley/modular-game-worlds-in-phaser-3-tilemaps-1-958fc7e6bbd6
-        //this.solides.set({ collides: true });
-        //this.lave.setCollisionByProperty({ collides: true });
+        //this.solides.set({Collision: true });
+        this.lave.setCollisionByProperty({Collision: true });
+        //this.devant.setCollisionByProperty({Collision: true });
+        this.solides.setCollisionByProperty({Collision: true });
+
+            
 
         // 2 manière la plus simple (là où il y a des tiles ça collide et sinon non)
         this.solides.setCollisionByExclusion(-1, true);
         this.lave.setCollisionByExclusion(-1, true);
+
+        //this.devant.setCollisionByExclusion(-1, true);
 
         // 3 Permet d'utiliser l'éditeur de collision de Tiled...mais ne semble pas marcher pas avec le moteur de physique ARCADE, donc oubliez cette option :(
         //this.map.setCollisionFromCollisionGroup(true,true,this.plateformesSimples);
@@ -73,14 +79,13 @@ class TableauTiled extends Tableau{
             immovable: false,
             bounceY:1
         });
-        //this.starsObjects = this.map.getObjectLayer('stars')['objects'];
-        // On crée des étoiles pour chaque objet rencontré
-        /*
+        this.starsObjects = this.map.getObjectLayer('stars')['objects'];
+        // // On crée des étoiles pour chaque objet rencontré
+        
         this.starsObjects.forEach(starObject => {
             // Pour chaque étoile on la positionne pour que ça colle bien car les étoiles ne font pas 64x64
             let star = this.stars.create(starObject.x+32, starObject.y+32 , 'particles','star');
         });
-            */
 
         //----------les monstres volants (objets tiled) ---------------------
 
