@@ -252,7 +252,7 @@ class TableauTiled extends Tableau{
         this.blood.setDepth(z--);
         monstersContainer.setDepth(z--);
         this.stars.setDepth(z--);
-        //starsFxContainer.setDepth(z--);
+        starsFxContainer.setDepth(z--);
         this.devant.setDepth(z--);
         this.solides.setDepth(z--);
         //this.laveFxContainer.setDepth(z--);
@@ -269,7 +269,7 @@ class TableauTiled extends Tableau{
      */
     optimizeDisplay(){
         //return;
-        let world=this.cameras.main.worldView; // le rectagle de la caméra, (les coordonnées de la zone visible)
+        //let world=this.cameras.main.worldView; // le rectagle de la caméra, (les coordonnées de la zone visible)
 
         // on va activer / désactiver les particules de lave
         /*
@@ -291,6 +291,7 @@ class TableauTiled extends Tableau{
             }
         }
         */
+        
 
         // ici vous pouvez appliquer le même principe pour des monstres, des étoiles etc...
     }
