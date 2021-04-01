@@ -90,16 +90,17 @@ class TableauTiled extends Tableau{
         //----------les monstres volants (objets tiled) ---------------------
 
 
+        /*
         let monstersContainer=this.add.container();
-        /*let montableau=this;
+        let montableau=this;
         this.flyingMonstersObjects = this.map.getObjectLayer('flyingMonsters')['objects'];
         // On crée des montres volants pour chaque objet rencontré
         this.flyingMonstersObjects.forEach(monsterObject => {
             let monster=new MonsterFly(montableau,monsterObject.x,monsterObject.y);
             monstersContainer.add(monster);
         });
-        
         */
+        
 
         //--------effet sur la lave------------------------
 
@@ -110,7 +111,7 @@ class TableauTiled extends Tableau{
           if(tile.index !== -1){ //uniquement pour les tiles remplies
 
 
-        dé-commenter pour mieux comprendre ce qui se passe
+        //dé-commenter pour mieux comprendre ce qui se passe
                 console.log("lave tile",tile.index,tile);
                 let g=ici.add.graphics();
                 laveFxContainer.add(g);
@@ -137,7 +138,10 @@ class TableauTiled extends Tableau{
                     alpha: { start: 1, end: 0 },
                     blendMode: Phaser.BlendModes.ADD,
                 };
-                let props2={...props}; //copie props sans props 2 */
+
+                */
+               
+                //let props2={...props}; //copie props sans props 2 */
                 //props2.blendMode=Phaser.BlendModes.MULTIPLY; // un autre blend mode plus sombre
 
                 /*ok tout est prêt...ajoute notre objet graphique*/
@@ -267,12 +271,13 @@ class TableauTiled extends Tableau{
     /**
      * Permet d'activer, désactiver des éléments en fonction de leur visibilité dans l'écran ou non
      */
-    optimizeDisplay(){
-        //return;
-        //let world=this.cameras.main.worldView; // le rectagle de la caméra, (les coordonnées de la zone visible)
+
+    /*optimizeDisplay(){
+        return;
+        let world=this.cameras.main.worldView; // le rectagle de la caméra, (les coordonnées de la zone visible)
 
         // on va activer / désactiver les particules de lave
-        /*
+        
         for( let particule of this.laveFxContainer.getAll()){ // parcours toutes les particules de lave
             if(Phaser.Geom.Rectangle.Overlaps(world,particule.rectangle)){
                 //si le rectangle de la particule est dans le rectangle de la caméra
@@ -290,11 +295,13 @@ class TableauTiled extends Tableau{
                 }
             }
         }
-        */
+        
         
 
         // ici vous pouvez appliquer le même principe pour des monstres, des étoiles etc...
     }
+
+    */
 
     /**
      * Fait se déplacer certains éléments en parallax
@@ -328,4 +335,3 @@ class TableauTiled extends Tableau{
 
 
 }
-
