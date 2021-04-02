@@ -90,9 +90,9 @@ class TableauTiled extends Tableau{
         //----------les monstres volants (objets tiled) ---------------------
 
 
-        /*
+        
         let monstersContainer=this.add.container();
-        let montableau=this;
+        /*let montableau=this;
         this.flyingMonstersObjects = this.map.getObjectLayer('flyingMonsters')['objects'];
         // On crée des montres volants pour chaque objet rencontré
         this.flyingMonstersObjects.forEach(monsterObject => {
@@ -272,7 +272,7 @@ class TableauTiled extends Tableau{
      * Permet d'activer, désactiver des éléments en fonction de leur visibilité dans l'écran ou non
      */
 
-    /*optimizeDisplay(){
+    optimizeDisplay(){
         return;
         let world=this.cameras.main.worldView; // le rectagle de la caméra, (les coordonnées de la zone visible)
 
@@ -301,7 +301,7 @@ class TableauTiled extends Tableau{
         // ici vous pouvez appliquer le même principe pour des monstres, des étoiles etc...
     }
 
-    */
+    
 
     /**
      * Fait se déplacer certains éléments en parallax
